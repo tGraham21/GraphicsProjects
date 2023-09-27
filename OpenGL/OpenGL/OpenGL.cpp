@@ -61,17 +61,17 @@ int main()
 		1, 2, 3    // second triangle
 	};
 
-	unsigned int VBO, VAO;
+	Shader ourShader = Shader("shaders/shader.vs", "shaders/shader.fs");
+
+	unsigned int VBO, VAO, EBO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &EBO);
 
 	glBindVertexArray(VAO);
+
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	unsigned int EBO;
-	glGenBuffers(1, &EBO);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
@@ -82,7 +82,7 @@ int main()
 	// color attribute
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
-
+	// texture coord attribute
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
@@ -96,14 +96,6 @@ int main()
 
 	// glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	std::filesystem::path vsPath("D:/dev/Proj/OpenGLPractice/OpenGL/shaders/shader.vs");
-	std::filesystem::path fsPath("D:/dev/Proj/OpenGLPractice/OpenGL/shaders/shader.fs");
-
-	if (!std::filesystem::exists(vsPath) || !std::filesystem::exists(fsPath))
-		std::cout << "Error: Bad paths to shaders" << std::endl;
-
-	Shader ourShader = Shader(vsPath.string().c_str(), fsPath.string().c_str());
-
 	unsigned int texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -114,7 +106,7 @@ int main()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	int height, width, nrChannels;
-	unsigned char* data = stbi_load("textures/wave.jpg", &width, &height, &nrChannels, 0);
+	unsigned char* data = stbi_load("textures/waves.jpg", &width, &height, &nrChannels, 0);
 
 	if (!data)
 		std::cout << "Warning: Failed To Load Texture" << std::endl;
