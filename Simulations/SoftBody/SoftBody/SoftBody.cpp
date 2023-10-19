@@ -10,6 +10,7 @@
 
 #include"Shader.hpp"
 #include "Camera.hpp"
+#include "SoftBodyEngine.hpp"
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -101,9 +102,16 @@ int main()
 	}
 
 	glEnable(GL_DEPTH_TEST);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwSetCursorPosCallback(window, mouse_callback);
-	glfwSetScrollCallback(window, scroll_callback);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//glfwSetCursorPosCallback(window, mouse_callback);
+	//glfwSetScrollCallback(window, scroll_callback);
+
+	SoftBodyEngine engine;
+	PointMass p1{ {10, 10}, {0, 0} };
+	PointMass p2{ {50, 50}, {2, 2} };
+
+	engine.addPoint(p1);
+	engine.addPoint(p2);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -115,6 +123,8 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

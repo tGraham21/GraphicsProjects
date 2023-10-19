@@ -13,3 +13,9 @@ struct PointMass
 	glm::vec2 Position;
 	glm::vec2 Velocity;
 };
+
+struct Collision
+{
+	glm::vec2 Normal{ 0.f, 0.f };
+	float Depth = -std::numeric_limits<float>::infinity();
+};
